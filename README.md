@@ -8,8 +8,8 @@ The purpose of this project is to learn some frontend technologies, understand w
 
 Container diagram:
 
-![Container diagram](https://github.com/nyquist-control/packet-visualizer/blob/main/docs/images/container_diagram.jpg)
+![Container diagram](https://github.com/nyquist-control/packet-visualizer/blob/main/docs/images/container.jpg)
 
 Component diagram:
 
-![Component diagram](https://github.com/nyquist-control/packet-visualizer/blob/main/docs/images/component_diagram.jpg)
+![Component diagram](https://github.com/nyquist-control/packet-visualizer/blob/main/docs/images/component.jpg)
