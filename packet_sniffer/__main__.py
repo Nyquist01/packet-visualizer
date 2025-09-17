@@ -9,9 +9,9 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    parser_process = multiprocessing.Process(target=parser)
-    resolver_process = multiprocessing.Process(target=resolver)
-    sniffer_process = multiprocessing.Process(target=sniffer)
+    parser_process = multiprocessing.Process(target=parser, name="parser")
+    resolver_process = multiprocessing.Process(target=resolver, name="resolver")
+    sniffer_process = multiprocessing.Process(target=sniffer, name="sniffer")
 
     parser_process.start()
     resolver_process.start()
