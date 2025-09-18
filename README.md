@@ -4,12 +4,15 @@ Captures, stores, and visualizes packets from your local device.
 
 The purpose of this project is to learn some frontend technologies, understand web sockets, and understanding networking better.
 
-# Architecture
+# Requirements
 
-Container diagram:
+- [UV package + project manager](https://docs.astral.sh/uv/getting-started/installation/)
 
-![Container diagram](https://github.com/nyquist-control/packet-visualizer/blob/main/docs/images/container.jpg)
+# Usage
 
-Component diagram:
+```
+sudo uv run -m packet_sniffer
+```
 
-![Component diagram](https://github.com/nyquist-control/packet-visualizer/blob/main/docs/images/component.jpg)
+Requires sudo access to read packets from your device's network interfaces.
+

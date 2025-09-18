@@ -1,15 +1,18 @@
 import logging
-import multiprocessing
-import time
+from multiprocessing.connection import Connection
 
+import pyshark
+
+from .models import Packet
 from .utils.logger import setup_logging
 
 logger = logging.getLogger(__name__)
 
 
-def main():
+def main(queue: Connection):
     setup_logging()
-    logger.info("Starting...")
-    while True:
-        time.sleep(1)
-        logger.info("Sniffing")
+    logger.info("Starting")
+    cap = pyshark.LiveRingCapture()
+    for packet in cap.sniff_continuously():
+        packet = Packet(packet)
+        queue.send(packet.to_dict())
