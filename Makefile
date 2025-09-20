@@ -13,6 +13,10 @@ docker-up:
 redis:
 	docker exec -it packet-sniffer-redis bash -c "redis-cli"
 
+docker-down:
+	docker compose down
+
 run:
 	make docker-up
-	sudo uv run -m packet_sniffer
+	trap "make docker-down" EXIT; sudo uv run -m packet_sniffer
+
