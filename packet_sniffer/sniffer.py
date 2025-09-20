@@ -1,5 +1,5 @@
 import logging
-from multiprocessing.connection import Connection
+from multiprocessing import Queue
 
 import pyshark
 
@@ -9,10 +9,10 @@ from .utils.logger import setup_logging
 logger = logging.getLogger(__name__)
 
 
-def main(queue: Connection):
+def main(queue: Queue):
     setup_logging()
     logger.info("Starting")
-    cap = pyshark.LiveRingCapture()
+    cap = pyshark.LiveCapture()
     for packet in cap.sniff_continuously():
         packet = Packet(packet)
-        queue.send(packet.to_dict())
+        queue.put(packet)

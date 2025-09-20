@@ -5,7 +5,7 @@ from socket import getservbyport
 
 from pyshark.packet.packet import Packet as PysharkPacket
 
-from .utils.network import is_port_well_known
+from .utils.network import is_port_well_known, resolve_ip_to_host
 
 logger = logging.getLogger()
 
@@ -71,6 +71,9 @@ class Packet:
         if self._has_tcp_layer:
             return int(self._packet.tcp.dstport)
         return None
+    
+    def resolve_src_ip(self) -> None:
+        self.src
 
 
 @dataclass
@@ -85,6 +88,26 @@ class Connection:
     dst_port_name: str | None = None
     src_host: str | None = None
     dst_host: str | None = None
+    src_host: str | None = None
+    dst_host: str | None = None
+
+    @classmethod
+    def from_packet(cls, packet: Packet) -> "Connection":
+        return cls(
+            src_ip=packet.src_ip,
+            dst_ip=packet.dst_ip,
+            src_port=packet.src_port,
+            dst_port=packet.dst_port,
+            src_port_name=packet.src_port_name,
+            dst_port_name=packet.dst_port_name
+        )
+    
+    def resolve_ips(self):
+        # TODO: resolve the hosts asynchronously
+        if self.src_ip:
+            self.src_host = resolve_ip_to_host(self.src_ip)
+        if self.dst_ip:
+            self.dst_host = resolve_ip_to_host(self.dst_ip)
 
     def __str__(self):
         src = self.src_host or self.src_ip

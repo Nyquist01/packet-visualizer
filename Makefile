@@ -5,3 +5,6 @@ format:
 lint:
 	uv run pylint --disable=C,W,R packet_sniffer/
 	uv run mypy packet_sniffer/
+
+run:
+	sudo uv run -m packet_sniffer
