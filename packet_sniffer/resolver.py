@@ -4,7 +4,7 @@ from multiprocessing import Queue
 from .consts import REDIS_QUEUE_KEY
 from .models import Connection, Packet
 from .redis_client import ConnectionQueue, redis_client
-from .utils.logger import setup_logging
+from .utils import setup_logging
 
 logger = logging.getLogger(__name__)
 

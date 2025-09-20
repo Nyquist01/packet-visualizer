@@ -5,6 +5,13 @@ import socket
 logger = logging.getLogger()
 
 
+def setup_logging():
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s %(levelname)s [%(processName)s] %(message)s",
+    )
+
+
 def is_port_well_known(port: int) -> bool:
     """
     Checks whether the given port is in the well-known range 0 - 1023

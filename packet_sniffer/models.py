@@ -6,7 +6,7 @@ from socket import getservbyport
 
 from pyshark.packet.packet import Packet as PysharkPacket
 
-from .utils.network import is_port_well_known, resolve_ip_to_host
+from .utils import is_port_well_known, resolve_ip_to_host
 
 logger = logging.getLogger()
 

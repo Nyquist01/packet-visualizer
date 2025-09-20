@@ -1,8 +1,8 @@
-# Packet Sniffer & Visualizer
+# Packet Visualizer
 
-Captures, stores, and visualizes packets from your local device.
+Visualizes connections being made to/from your device.
 
-The purpose of this project is to learn some frontend technologies, understand web sockets, and understanding networking better.
+This is a personal project so I can learn some frontend development, understand web sockets, and understanding networking better.
 
 # Requirements
 
