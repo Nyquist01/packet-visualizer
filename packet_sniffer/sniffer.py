@@ -5,7 +5,7 @@ import pyshark
 
 from .consts import BFP
 from .models import Packet
-from .utils.logger import setup_logging
+from .utils import setup_logging
 
 logger = logging.getLogger(__name__)
 
