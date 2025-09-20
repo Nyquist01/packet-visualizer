@@ -1,6 +1,7 @@
+import json
 import logging
-
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from socket import getservbyport
 
 from pyshark.packet.packet import Packet as PysharkPacket
@@ -15,6 +16,7 @@ class Packet:
 
     def __init__(self, packet: PysharkPacket):
         self._packet = packet
+        self.ts = packet.sniff_timestamp
         self.src_ip = self.extract_src_ip()
         self.dst_ip = self.extract_dst_ip()
         self.src_port = self.extract_src_port()
@@ -25,14 +27,18 @@ class Packet:
             try:
                 self.src_port_name = getservbyport(self.src_port)
             except OSError as exc:
-                logger.exception("Could not find proto for %s. Exception %s", self.src_port, exc)
+                logger.exception(
+                    "Could not find proto for %s. Exception %s", self.src_port, exc
+                )
 
         self.dst_port_name = None
         if self.dst_port and is_port_well_known(self.dst_port):
             try:
                 self.dst_port_name = getservbyport(self.dst_port)
-            except OSError:
-                logger.exception("Could not find proto for %s. Exception %s", self.dst_port, exc)
+            except OSError as exc:
+                logger.exception(
+                    "Could not find proto for %s. Exception %s", self.dst_port, exc
+                )
 
     def to_dict(self) -> dict:
         return {
@@ -71,15 +77,20 @@ class Packet:
         if self._has_tcp_layer:
             return int(self._packet.tcp.dstport)
         return None
-    
-    def resolve_src_ip(self) -> None:
-        self.src
+
+
+def timestamp_to_datetime(timestamp_str: str):
+    """Converts a str epoch timestamp to YYYY-MM-DD HH:MM:SS.MMM"""
+    ts = float(timestamp_str)
+    dt = datetime.fromtimestamp(ts)
+    return dt.strftime("%Y-%m-%d %H:%M:%S.%f")
 
 
 @dataclass
 class Connection:
     """Higher level representation of a packet"""
 
+    timestamp: str
     src_ip: str
     dst_ip: str
     src_port: int
@@ -94,20 +105,24 @@ class Connection:
     @classmethod
     def from_packet(cls, packet: Packet) -> "Connection":
         return cls(
+            timestamp=timestamp_to_datetime(packet.ts),
             src_ip=packet.src_ip,
             dst_ip=packet.dst_ip,
             src_port=packet.src_port,
             dst_port=packet.dst_port,
             src_port_name=packet.src_port_name,
-            dst_port_name=packet.dst_port_name
+            dst_port_name=packet.dst_port_name,
         )
-    
+
     def resolve_ips(self):
         # TODO: resolve the hosts asynchronously
         if self.src_ip:
             self.src_host = resolve_ip_to_host(self.src_ip)
         if self.dst_ip:
             self.dst_host = resolve_ip_to_host(self.dst_ip)
+
+    def to_json(self):
+        return json.dumps(asdict(self))
 
     def __str__(self):
         src = self.src_host or self.src_ip

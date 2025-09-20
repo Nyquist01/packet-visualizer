@@ -7,12 +7,21 @@ The purpose of this project is to learn some frontend technologies, understand w
 # Requirements
 
 - [UV package + project manager](https://docs.astral.sh/uv/getting-started/installation/)
+- Docker Engine/[Docker Desktop](https://docs.docker.com/desktop/)
 
 # Usage
 
+On MacOS/Linux:
+
 ```
-sudo uv run -m packet_sniffer
+make run
 ```
 
-Requires sudo access to read packets from your device's network interfaces.
+On Windows:
 
+1. `docker compose up -d --wait`
+2. `uv run -m packet_sniffer`
+
+
+> [!NOTE]
+>  Requires root access to be able to read packets from your device's network interfaces.

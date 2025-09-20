@@ -1,0 +1,7 @@
+services:
+  redis:
+    container_name: packet-sniffer-redis
+    image: redis:8.0
+    user: redis
+    ports:
+      - 6379:6379
