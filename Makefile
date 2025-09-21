@@ -19,4 +19,3 @@ docker-down:
 run:
 	make docker-up
 	trap "make docker-down" EXIT; sudo uv run -m packet_sniffer
-

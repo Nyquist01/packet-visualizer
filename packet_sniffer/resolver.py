@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 def main(mp_queue: Queue):
     setup_logging()
-    logger.info("Starting...")
+    logger.info("Starting IP resolver")
     redis = redis_client()
     rd_queue = ConnectionQueue(redis, REDIS_QUEUE_KEY)
 
@@ -19,4 +19,4 @@ def main(mp_queue: Queue):
         packet: Packet = mp_queue.get()
         conn = Connection.from_packet(packet)
         conn.resolve_ips()
-        rd_queue.push(conn.to_json())
+        rd_queue.push(conn)

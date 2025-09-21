@@ -70,5 +70,5 @@ async def raw_packet_data(websocket: WebSocket):
     queue = ConnectionQueue(redis, REDIS_QUEUE_KEY)
     while True:
         conn = queue.pop()
-        await websocket.send_text(str(conn))
-        await asyncio.sleep(0.5)
+        await websocket.send_json(conn)
+        await asyncio.sleep(0.5)  # dont spam

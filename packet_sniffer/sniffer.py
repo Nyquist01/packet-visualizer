@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 def main(queue: Queue):
     setup_logging()
-    logger.info("Starting")
+    logger.info("Starting packet sniffer")
     cap = pyshark.LiveCapture(bpf_filter=BFP)
     for packet in cap.sniff_continuously():
         packet = Packet(packet)
