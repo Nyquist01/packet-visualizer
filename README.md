@@ -20,7 +20,7 @@ make run
 On Windows:
 
 1. `docker compose up -d --wait`
-2. `uv run -m packet_sniffer`
+2. `uv run -m backend`
 
 
 > [!NOTE]

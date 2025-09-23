@@ -4,8 +4,8 @@ format:
 	uv run ruff check --fix --select I
 
 lint:
-	uv run pylint --disable=C,W,R packet_sniffer/
-	uv run mypy packet_sniffer/
+	uv run pylint --disable=C,W,R backend/
+	uv run mypy backend/
 
 docker-up:
 	docker compose up -d --wait
@@ -18,4 +18,4 @@ docker-down:
 
 run:
 	make docker-up
-	trap "make docker-down" EXIT; sudo uv run -m packet_sniffer
+	trap "make docker-down" EXIT; sudo uv run --directory backend -m packet_sniffer
